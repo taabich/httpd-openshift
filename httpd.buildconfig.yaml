@@ -1,0 +1,33 @@
+apiVersion: image.openshift.io/v1
+kind: ImageStream
+metadata:
+  name: httpd
+spec: {}
+---
+kind: BuildConfig
+apiVersion: build.openshift.io/v1
+metadata:
+  name: httpd
+  labels:
+    build: httpd
+spec:
+  triggers:
+    - type: ConfigChange
+  nodeSelector: null
+  output:
+    to:
+      kind: ImageStreamTag
+      name: 'httpd:latest'
+  resources: {}
+  strategy:
+    type: Source
+    sourceStrategy:
+      from:
+        kind: ImageStreamTag
+        namespace: openshift
+        name: 'httpd:2.4-ubi9'
+  source:
+    type: Git
+    git:
+      uri: 'https://github.com/taabich/httpd-openshift'
+    contextDir: httpd
