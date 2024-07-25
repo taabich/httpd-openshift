@@ -15,7 +15,7 @@ RUN xmlstarlet ed -L \
     -a '/Server/Service/Connector[@protocol="AJP/1.3"]' -t attr -n maxParameterCount -v 1000 \
     -a '/Server/Service/Connector[@protocol="AJP/1.3"]' -t attr -n secretRequired -v "false" \
     -a '/Server/Service/Connector[@protocol="AJP/1.3"]' -t attr -n address -v "0.0.0.0" \
-    /app/apache-tomcat-10.1.24/conf/server.xml
+    /app/apache-tomcat-10.1.26/conf/server.xml
 
 RUN chown -R default:root /app
 RUN chmod g+rw -R /app
@@ -23,8 +23,8 @@ RUN find /app -type d -exec chmod g+x {} \;
 EXPOSE 8080/tcp
 EXPOSE 8009/tcp
 
-RUN cd /app/apache-tomcat-10.1.24/webapps/ && \
+RUN cd /app/apache-tomcat-10.1.26/webapps/ && \
     curl -L -O https://tomcat.apache.org/tomcat-7.0-doc/appdev/sample/sample.war
 
 USER default
-CMD ["/app/apache-tomcat-10.1.24/bin/catalina.sh", "run"]
+CMD ["/app/apache-tomcat-10.1.26/bin/catalina.sh", "run"]
