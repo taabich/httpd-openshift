@@ -5,8 +5,8 @@ RUN microdnf install -y gzip xmlstarlet
 
 WORKDIR /app
 
-RUN curl -L -O https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.24/bin/apache-tomcat-10.1.24.tar.gz
-RUN tar xzvf apache-tomcat-10.1.24.tar.gz
+RUN curl -L -O https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.26/bin/apache-tomcat-10.1.26.tar.gz
+RUN tar xzvf apache-tomcat-10.1.26.tar.gz
 RUN xmlstarlet ed -L \
     -s '/Server/Service' --type elem -n Connector \
     -a '/Server/Service/Connector[not(@protocol)]' -t attr -n protocol -v 'AJP/1.3' \
