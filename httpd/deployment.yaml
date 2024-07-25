@@ -1,18 +1,19 @@
-kind: Deployment
-apiVersion: apps/v1
+---
+apiVersion: v1
+kind: ImageStream
 metadata:
-  annotations:
-    alpha.image.policy.openshift.io/resolve-names: '*'
-    image.openshift.io/triggers: '[{"from":{"kind":"ImageStreamTag","name":"httpd:latest","namespace":"rbohne-vw-autostadt"},"fieldPath":"spec.template.spec.containers[?(@.name==\"httpd\")].image","pause":"false"}]'
-  name: httpd
   labels:
     app: httpd
-    app.kubernetes.io/component: httpd
-    app.kubernetes.io/instance: httpd
-    app.kubernetes.io/name: httpd
-    app.kubernetes.io/part-of: tomcat
-    app.openshift.io/runtime: apache
-    app.openshift.io/runtime-version: latest
+  name: httpd:latest
+spec: {}
+
+---
+kind: Deployment
+apiVersion: apps.openshift.io/v1
+metadata:
+  labels:
+    app: httpd
+  name: httpd
 spec:
   replicas: 1
   selector:
