@@ -30,7 +30,7 @@ objects:
     source: 
       git:
         uri: ${APP_GIT_URL}
-      # contextDir: java
+        contextDir: tomcat9
     strategy:
       type: Docker
       dockerStrategy:
@@ -60,18 +60,18 @@ objects:
       spec:
 
         containers:
-          - env:
+        - env:
             - name: TOMCAT_USERNAME
             - name: TOMCAT_PASSWORD
 
-          - name: ${APP_NAME}
-            image: '${APP_NAME}/${APP_NAME}:latest'
-            ports:
+          name: ${APP_NAME}
+          image: '${APP_NAME}/${APP_NAME}:latest'
+          ports:
               - containerPort: 8009
                 protocol: TCP
               - containerPort: 8443
                 protocol: TCP
-            resources: {}
+          resources: {}
      
     triggers:
       - type: "ImageChange" 
