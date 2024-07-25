@@ -10,7 +10,7 @@ metadata:
     app.kubernetes.io/component: httpd
     app.kubernetes.io/instance: httpd
     app.kubernetes.io/name: httpd
-    app.kubernetes.io/part-of: tomcat-example
+    app.kubernetes.io/part-of: tomcat
     app.openshift.io/runtime: apache
     app.openshift.io/runtime-version: latest
 spec:
