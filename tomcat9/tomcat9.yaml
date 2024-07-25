@@ -27,10 +27,11 @@ objects:
       - type: "ConfigChange"
       - imageChangeParams:
           automatic: true 
+    
     source: 
       git:
         uri: ${APP_GIT_URL}
-        contextDir: tomcat9
+      contextDir: tomcat9
     strategy:
       type: Docker
       dockerStrategy:
