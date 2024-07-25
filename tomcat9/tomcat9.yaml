@@ -66,7 +66,7 @@ objects:
             - name: TOMCAT_PASSWORD
 
           name: ${APP_NAME}
-          image: '${APP_NAME}/${APP_NAME}:latest'
+          image: '${APP_NS}/${APP_NAME}:latest'
           ports:
               - containerPort: 8009
                 protocol: TCP
@@ -124,6 +124,12 @@ objects:
       targetPort: 8080-tcp
   wildcardPolicy: None
 parameters:
+- name: APP_NS
+  displayName: Application Namespace
+  description: Nama aplikasi dan namespace
+  value: tomcat
+
+
 - name: APP_NAME
   displayName: Application Name
   description: Nama aplikasi dan namespace
