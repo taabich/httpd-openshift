@@ -73,16 +73,17 @@ objects:
               - containerPort: 8443
                 protocol: TCP
           resources: {}
-     
+          
     triggers:
-      - type: "ImageChange" 
-        imageChangeParams:
+      - type: "ConfigChange" 
+      - imageChangeParams:
           automatic: true
           containerNames:
             - ${APP_NAME}
           from:
             kind: "ImageStreamTag"
             name: ${APP_NAME}:latest
+        type: ImageChange
     strategy:
       type: RollingUpdate
       rollingUpdate:
