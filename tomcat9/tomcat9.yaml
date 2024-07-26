@@ -28,6 +28,17 @@ parameters:
 
 
 objects:
+- kind: PersistentVolumeClaim
+  apiVersion: v1
+  metadata:
+    name: tomcat-data
+  spec:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 512Mi
+
 - kind: "LimitRange"
   apiVersion: "v1"
   metadata:
@@ -133,6 +144,11 @@ objects:
             maxSurge: 25%
             maxUnavailable: 25%
           type: RollingUpdate
+        volumes:
+        - name: tomcat-data-vol
+          persistentVolumeClaim:
+            claimName: tomcat-data
+
         containers:
         - env:
             - name: TOMCAT_USERNAME
@@ -145,7 +161,9 @@ objects:
                 protocol: TCP
               - containerPort: 8443
                 protocol: TCP
-          
+          volumeMounts:
+            - mountPath: "/app"
+              name:  tomcat-data-vol
 
     triggers:
       - type: "ConfigChange" 
