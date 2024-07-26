@@ -38,8 +38,6 @@ objects:
   spec:
     lookupPolicy:
       local: false
-    tags:
-      name: latest
 
 - kind: "BuildConfig"
   apiVersion: build.openshift.io/v1
