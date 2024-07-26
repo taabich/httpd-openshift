@@ -4,6 +4,7 @@ metadata:
   name: tomcat-server
   labels: 
     app: tomcat-server
+
 objects:
 - kind: ImageStream
   apiVersion: image.openshift.io/v1
@@ -21,10 +22,10 @@ objects:
       app: ${APP_NAME}
   spec:
     type: Git
-    contextDir: tomcat9
+    contextDir: "tomcat9/"
     source: 
       git:
-        uri: ${APP_GIT_URL}
+        uri: "${APP_GIT_URL}"
     strategy:
       type: Docker
       dockerStrategy:
@@ -32,7 +33,7 @@ objects:
     output: 
       to:
         kind: "ImageStreamTag"
-        name: ${APP_NAME}:latest
+        name: "${APP_NAME}:latest"
         
 
 - kind: Deployment

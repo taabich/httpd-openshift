@@ -13,6 +13,7 @@ RUN chmod g+rw -R /app
 RUN find /app -type d -exec chmod g+x {} \;
 EXPOSE 8080/tcp
 EXPOSE 8009/tcp
+EXPOSE 8443/tcp
 
 RUN cd /app/apache-tomcat-10.1.26/webapps/ && \
     curl -L -O https://tomcat.apache.org/tomcat-7.0-doc/appdev/sample/sample.war
