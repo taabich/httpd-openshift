@@ -139,7 +139,7 @@ objects:
             - name: TOMCAT_PASSWORD
           name: ${APP_NAME}
           namespace: ${APP_NS}
-          image: ${APP_NAME}:latest
+          image: ${APP_NS}/${APP_NAME}:latest
           ports:
               - containerPort: 8009
                 protocol: TCP
