@@ -21,7 +21,7 @@ objects:
       app: ${APP_NAME}
   spec:
     type: Git
-    contextDir: tomcat9/
+    contextDir: tomcat9
     source: 
       git:
         uri: ${APP_GIT_URL}
