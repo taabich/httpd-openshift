@@ -46,8 +46,8 @@ objects:
     labels:
       app: ${APP_NAME}
   spec:
-    failedBuildsHistoryLimit: 5
-    successfulBuildsHistoryLimit: 5
+    failedBuildsHistoryLimit: 1
+    successfulBuildsHistoryLimit: 1
     runPolicy: Serial
     output: 
       to:
@@ -75,7 +75,7 @@ objects:
     labels:
       app: ${APP_NAME}
   spec:
-    replicas: 1
+    replicas: 0
     selector:
       matchLabels:
         app: ${APP_NAME}  
@@ -95,7 +95,7 @@ objects:
             - name: TOMCAT_USERNAME
             - name: TOMCAT_PASSWORD
           name: ${APP_NAME}
-          image: ${APP_NS}/${APP_NAME}:latest
+          image: ${APP_NAME}:latest
           ports:
               - containerPort: 8009
                 protocol: TCP
