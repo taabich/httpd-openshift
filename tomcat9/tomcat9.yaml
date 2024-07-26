@@ -4,6 +4,28 @@ metadata:
   name: tomcat-server
   labels: 
     app: tomcat-server
+message: TOMCAT SERVER JOB
+
+parameters:
+- name: APP_NS
+  displayName: Application Namespace
+  description: Nama aplikasi dan namespace
+  value: tomcat
+- name: APP_NAME
+  displayName: Application Name
+  description: Nama aplikasi dan namespace
+  value: tomcat-server
+  required: true
+- name: APP_GIT_URL
+  displayName: Application Source Git URL
+  description: The Git URL of the application source code
+  required: true
+  value: https://github.com/taabich/httpd-openshift
+- name: SECRET
+  displayName: Webhook Secret
+  description: Secret for webhooks
+  value: tomcat
+
 
 objects:
 - kind: ImageStream
@@ -13,7 +35,12 @@ objects:
     labels:
       app: ${APP_NAME}
     name: ${APP_NAME}
-  spec: {}
+  spec:
+    lookupPolicy:
+      local: false
+    tags:
+      name: latest
+
 - kind: "BuildConfig"
   apiVersion: build.openshift.io/v1
   metadata:
@@ -21,21 +48,28 @@ objects:
     labels:
       app: ${APP_NAME}
   spec:
-    type: Git
-    contextDir: "tomcat9/"
+    failedBuildsHistoryLimit: 5
+    successfulBuildsHistoryLimit: 5
+    runPolicy: Serial
+    output: 
+      to:
+        kind: "ImageStreamTag"
+        name: "${APP_NAME}:latest"
     source: 
+      type: Git
+      contextDir: "tomcat9/"
       git:
         uri: "${APP_GIT_URL}"
     strategy:
       type: Docker
       dockerStrategy:
         dockerfilePath: Dockerfile
-    output: 
-      to:
-        kind: "ImageStreamTag"
-        name: "${APP_NAME}:latest"
+    triggers:
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+    
         
-
 - kind: Deployment
   apiVersion: apps/v1
   metadata:
@@ -109,22 +143,4 @@ objects:
     port:
       targetPort: 8080-tcp
   wildcardPolicy: None
-parameters:
-- name: APP_NS
-  displayName: Application Namespace
-  description: Nama aplikasi dan namespace
-  value: tomcat
-- name: APP_NAME
-  displayName: Application Name
-  description: Nama aplikasi dan namespace
-  value: tomcat-server
-  required: true
-- name: APP_GIT_URL
-  displayName: Application Source Git URL
-  description: The Git URL of the application source code
-  required: true
-  value: https://github.com/taabich/httpd-openshift
-- name: SECRET
-  displayName: Webhook Secret
-  description: Secret for webhooks
-  value: tomcat
+
