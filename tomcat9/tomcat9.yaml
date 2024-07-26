@@ -144,15 +144,6 @@ objects:
                 protocol: TCP
               - containerPort: 8443
                 protocol: TCP
-          resources:
-            requests:
-              cpu: 100m 
-              memory: 200Mi 
-              ephemeral-storage: 1Gi 
-            limits:
-              cpu: 200m 
-              memory: 400Mi 
-              ephemeral-storage: 2Gi 
           
 
     triggers:
