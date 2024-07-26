@@ -33,7 +33,7 @@ objects:
       to:
         kind: "ImageStreamTag"
         name: ${APP_NAME}:latest
-        namespace: ${APP_NS}
+        
 
 - kind: Deployment
   apiVersion: apps/v1
@@ -74,7 +74,6 @@ objects:
           from:
             kind: "ImageStreamTag"
             name: ${APP_NAME}:latest
-            namespace: ${APP_NS}
         type: ImageChange
 
 - kind: Service
