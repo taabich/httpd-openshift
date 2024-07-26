@@ -12,9 +12,7 @@ objects:
     labels:
       app: ${APP_NAME}
     name: ${APP_NAME}
-  spec:
-    lookupPolicy:
-      local: false
+  spec: {}
 - kind: "BuildConfig"
   apiVersion: build.openshift.io/v1
   metadata:
@@ -22,26 +20,24 @@ objects:
     labels:
       app: ${APP_NAME}
   spec:
-    runPolicy: "Serial" 
-    triggers: 
-      - type: "ConfigChange"
-      - imageChangeParams:
-          automatic: true 
-    
+    type: Git
+    contextDir: tomcat9/
     source: 
       git:
         uri: ${APP_GIT_URL}
-      contextDir: tomcat9
     strategy:
       type: Docker
       dockerStrategy:
-        dockerfilePath: Dockerfile    
+        dockerfilePath: Dockerfile
+        from:
+          kind: ImageStreamTag
+          name: ${APP_NAME}:latest
+          namespace: ${APP_NS}
     output: 
-      pullSecret:
-        name: credquay
       to:
         kind: "ImageStreamTag"
         name: ${APP_NAME}:latest
+
 - kind: Deployment
   apiVersion: apps/v1
   metadata:
@@ -59,21 +55,19 @@ objects:
           name: ${APP_NAME}
           app: ${APP_NAME}
       spec:
-
         containers:
         - env:
             - name: TOMCAT_USERNAME
             - name: TOMCAT_PASSWORD
-
           name: ${APP_NAME}
-          image: '${APP_NAME}:latest'
+          image: ${APP_NAME}:latest
           ports:
               - containerPort: 8009
                 protocol: TCP
               - containerPort: 8443
                 protocol: TCP
           resources: {}
-          
+
     triggers:
       - type: "ConfigChange" 
       - imageChangeParams:
@@ -84,14 +78,7 @@ objects:
             kind: "ImageStreamTag"
             name: ${APP_NAME}:latest
         type: ImageChange
-    strategy:
-      type: RollingUpdate
-      rollingUpdate:
-        maxUnavailable: 25%
-        maxSurge: 25%
-      paused: false 
-      revisionHistoryLimit: 2 
-      minReadySeconds: 0 
+
 - kind: Service
   apiVersion: v1
   metadata:
@@ -129,8 +116,6 @@ parameters:
   displayName: Application Namespace
   description: Nama aplikasi dan namespace
   value: tomcat
-
-
 - name: APP_NAME
   displayName: Application Name
   description: Nama aplikasi dan namespace
