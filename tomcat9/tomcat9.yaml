@@ -37,36 +37,8 @@ objects:
       - ReadWriteOnce
     resources:
       requests:
-        storage: 1Gi
+        storage: 2Gi
 
-- kind: "LimitRange"
-  apiVersion: "v1"
-  metadata:
-    name: "core-resource-limits" 
-  spec:
-    limits:
-      - type: "Pod"
-        max:
-          cpu: "2" 
-          memory: "1Gi" 
-        min:
-          cpu: "200m" 
-          memory: "6Mi" 
-      - type: "Container"
-        max:
-          cpu: "2" 
-          memory: "1Gi" 
-        min:
-          cpu: "100m" 
-          memory: "4Mi" 
-        default:
-          cpu: "300m" 
-          memory: "200Mi" 
-        defaultRequest:
-          cpu: "200m" 
-          memory: "100Mi" 
-        maxLimitRequestRatio:
-          cpu: "10" 
 
 - kind: ImageStream
   apiVersion: image.openshift.io/v1
@@ -143,17 +115,15 @@ objects:
           namespace: ${APP_NS}
           image: ${APP_NAME}:latest
           ports:
-              - containerPort: 8009
-                protocol: TCP
               - containerPort: 8443
                 protocol: TCP
               - containerPort: 8080
                 protocol: TCP
           resources:
             requests:
-              ephemeral-storage: "2Gi" 
+              ephemeral-storage: "3Gi" 
             limits:
-              ephemeral-storage: "4Gi" 
+              ephemeral-storage: "5Gi" 
           volumeMounts:
             - mountPath: "/opt"
               name:  tomcat-data-vol
