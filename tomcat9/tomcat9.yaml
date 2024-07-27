@@ -28,16 +28,6 @@ parameters:
 
 
 objects:
-- kind: PersistentVolumeClaim
-  apiVersion: v1
-  metadata:
-    name: tomcat-data
-  spec:
-    accessModes:
-      - ReadWriteOnce
-    resources:
-      requests:
-        storage: 2Gi
 
 
 - kind: ImageStream
@@ -110,7 +100,7 @@ objects:
         volumes:
         - name: tomcat-data-vol
           persistentVolumeClaim:
-            claimName: tomcat-data
+            claimName: nfs-pv
 
         containers:
         - env:
