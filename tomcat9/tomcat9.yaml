@@ -29,6 +29,18 @@ parameters:
 
 objects:
 
+- kind: PersistentVolumeClaim
+  apiVersion: v1
+  metadata:
+    name: tomcat-data
+  spec:
+    accessModes:
+      - ReadWriteMany 
+    resources:
+      requests:
+        storage: 1Gi 
+    volumeName: nfs-pv
+
 
 - kind: ImageStream
   apiVersion: image.openshift.io/v1
@@ -82,7 +94,7 @@ objects:
     labels:
       app: ${APP_NAME}
   spec:
-    replicas: 0
+    replicas: 1
     selector:
       matchLabels:
         app: ${APP_NAME}  
@@ -100,7 +112,7 @@ objects:
         volumes:
         - name: tomcat-data-vol
           persistentVolumeClaim:
-            claimName: nfs-pv
+            claimName: tomcat-data
 
         containers:
         - env:
