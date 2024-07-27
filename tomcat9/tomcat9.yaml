@@ -129,9 +129,9 @@ objects:
               ephemeral-storage: "1Gi" 
             limits:
               ephemeral-storage: "2Gi" 
-          volumeMounts:
-            - mountPath: "./opt"
-              name:  tomcat-data-vol
+          # volumeMounts:
+          #   - mountPath: "./opt"
+          #     name:  tomcat-data-vol
           imagePullPolicy: Always
             
     triggers:
