@@ -68,20 +68,6 @@ objects:
         maxLimitRequestRatio:
           cpu: "10" 
 
-- kind: ResourceQuota
-  apiVersion: v1
-  metadata:
-    name: compute-resources
-  spec:
-    hard:
-      pods: "2" 
-      requests.cpu: "1" 
-      requests.memory: 1Gi 
-      requests.ephemeral-storage: 3Gi 
-      limits.cpu: "2" 
-      limits.memory: 2Gi 
-      limits.ephemeral-storage: 5Gi 
-
 - kind: ImageStream
   apiVersion: image.openshift.io/v1
   metadata:
@@ -163,6 +149,11 @@ objects:
                 protocol: TCP
               - containerPort: 8080
                 protocol: TCP
+          resources:
+            requests:
+              ephemeral-storage: "2Gi" 
+            limits:
+              ephemeral-storage: "4Gi" 
           volumeMounts:
             - mountPath: "/opt"
               name:  tomcat-data-vol
