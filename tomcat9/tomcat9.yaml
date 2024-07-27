@@ -74,6 +74,11 @@ objects:
       type: Docker
       dockerStrategy:
         dockerfilePath: Dockerfile
+    resources:
+      requests:
+        ephemeral-storage: "1Gi" 
+      limits:
+        ephemeral-storage: "2Gi" 
     triggers:
     - type: ConfigChange
     - imageChange: {}
@@ -125,7 +130,7 @@ objects:
             limits:
               ephemeral-storage: "2Gi" 
           volumeMounts:
-            - mountPath: "/opt"
+            - mountPath: "./opt"
               name:  tomcat-data-vol
           imagePullPolicy: Always
             
