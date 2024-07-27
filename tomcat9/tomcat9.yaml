@@ -91,7 +91,7 @@ objects:
     name: ${APP_NAME}
   spec:
     lookupPolicy:
-      local: false
+      local: true
 
 - kind: "BuildConfig"
   apiVersion: build.openshift.io/v1
@@ -164,6 +164,8 @@ objects:
           volumeMounts:
             - mountPath: "/app"
               name:  tomcat-data-vol
+          imagePullPolicy: Always
+            
     triggers:
       - type: "ConfigChange" 
       - imageChangeParams:
