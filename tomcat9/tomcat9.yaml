@@ -80,7 +80,7 @@ objects:
       requests:
         ephemeral-storage: "1Gi" 
       limits:
-        ephemeral-storage: "2Gi" 
+        ephemeral-storage: "5Gi" 
     triggers:
     - type: ConfigChange
     - imageChange: {}
@@ -130,7 +130,7 @@ objects:
             requests:
               ephemeral-storage: "1Gi" 
             limits:
-              ephemeral-storage: "2Gi" 
+              ephemeral-storage: "5Gi" 
           volumeMounts:
             - mountPath: "/opt"
               name:  tomcat-data-vol
