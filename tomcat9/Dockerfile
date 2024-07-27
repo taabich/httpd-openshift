@@ -12,7 +12,8 @@ RUN dnf -y update && dnf -y install \
 
 
 RUN groupadd tomcat
-RUN useradd -M -s /bin/nologin -g tomcat -d /opt/tomcat tomcat
+RUN useradd -g tomcat -d /opt/tomcat tomcat
+RUN mkdir -p /opt/tomcat
 
 
 WORKDIR /tmp
