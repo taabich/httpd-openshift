@@ -19,4 +19,4 @@ RUN cd /app/apache-tomcat-10.1.26/webapps/ && \
     curl -L -O https://tomcat.apache.org/tomcat-7.0-doc/appdev/sample/sample.war
 
 USER default
-CMD ["/app/apache-tomcat-10.1.26/bin/catalina.sh", "run"]
+#CMD ["/app/apache-tomcat-10.1.26/bin/catalina.sh", "run"]
