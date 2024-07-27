@@ -16,7 +16,6 @@ RUN useradd -M -s /bin/nologin -g tomcat -d /opt/tomcat tomcat
 
 
 
-
 WORKDIR /tmp
 ADD https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.26/bin/apache-tomcat-10.1.26.tar.gz /tmp/
 
