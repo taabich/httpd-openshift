@@ -28,16 +28,16 @@ parameters:
 
 
 objects:
-# - kind: PersistentVolumeClaim
-#   apiVersion: v1
-#   metadata:
-#     name: tomcat-data
-#   spec:
-#     accessModes:
-#       - ReadWriteOnce
-#     resources:
-#       requests:
-#         storage: 2Gi
+- kind: PersistentVolumeClaim
+  apiVersion: v1
+  metadata:
+    name: tomcat-data
+  spec:
+    accessModes:
+      - ReadWriteOnce
+    resources:
+      requests:
+        storage: 2Gi
 
 
 - kind: ImageStream
@@ -107,10 +107,10 @@ objects:
             maxSurge: 25%
             maxUnavailable: 25%
           type: RollingUpdate
-        # volumes:
-        # - name: tomcat-data-vol
-        #   persistentVolumeClaim:
-        #     claimName: tomcat-data
+        volumes:
+        - name: tomcat-data-vol
+          persistentVolumeClaim:
+            claimName: tomcat-data
 
         containers:
         - env:
@@ -129,9 +129,9 @@ objects:
               ephemeral-storage: "1Gi" 
             limits:
               ephemeral-storage: "2Gi" 
-          # volumeMounts:
-          #   - mountPath: "./opt"
-          #     name:  tomcat-data-vol
+          volumeMounts:
+            - mountPath: "/opt"
+              name:  tomcat-data-vol
           imagePullPolicy: Always
             
     triggers:
