@@ -21,6 +21,8 @@ ADD https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.26/bin/apache-tomcat-10.1.26
 
 RUN tar xzvf /tmp/apache-tomcat-*tar.gz -C /opt/tomcat --strip-components=1
 
+RUN rm /tmp/apache*
+
 
 ADD tomcat-users.xml /opt/tomcat/conf
 ADD context.xml /opt/tomcat/webapps/manager/META-INF/context.xml

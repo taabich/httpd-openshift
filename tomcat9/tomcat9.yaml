@@ -121,9 +121,9 @@ objects:
                 protocol: TCP
           resources:
             requests:
-              ephemeral-storage: "3Gi" 
+              ephemeral-storage: "1Gi" 
             limits:
-              ephemeral-storage: "5Gi" 
+              ephemeral-storage: "2Gi" 
           volumeMounts:
             - mountPath: "/opt"
               name:  tomcat-data-vol
