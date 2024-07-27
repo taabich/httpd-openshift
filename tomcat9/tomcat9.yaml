@@ -37,7 +37,7 @@ objects:
       - ReadWriteOnce
     resources:
       requests:
-        storage: 512Mi
+        storage: 1Gi
 
 - kind: "LimitRange"
   apiVersion: "v1"
@@ -161,8 +161,10 @@ objects:
                 protocol: TCP
               - containerPort: 8443
                 protocol: TCP
+              - containerPort: 8080
+                protocol: TCP
           volumeMounts:
-            - mountPath: "/app"
+            - mountPath: "/opt"
               name:  tomcat-data-vol
           imagePullPolicy: Always
             
