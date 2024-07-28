@@ -133,7 +133,7 @@ objects:
               # a mount for site-data
               - name: tomcat-data-vol
                 mountPath: /opt/app
-                subPath: tomcat
+                subPath: app
           imagePullPolicy: Always
 
         volumes:
