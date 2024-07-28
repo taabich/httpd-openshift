@@ -3,5 +3,7 @@ oc delete template tomcat-server
 oc delete resourcequotas compute-resources
 oc delete limitranges core-resource-limits
 oc delete  persistentvolumeclaims pv-tomcat-data
+oc delete -f local-pv.yml
+oc create -f local-pv.yml
 oc create -f tomcat9.yaml
 oc new-app tomcat-server --env-file=env-tomcat.properties
