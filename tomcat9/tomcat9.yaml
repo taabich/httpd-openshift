@@ -29,18 +29,18 @@ parameters:
 
 objects:
 
+
 - kind: PersistentVolumeClaim
   apiVersion: v1
   metadata:
     name: pv-tomcat-data
   spec:
-    storageClassName: manual
     accessModes:
-      - ReadWriteMany 
+    - ReadWriteOnce
     resources:
       requests:
-        storage: 1Gi 
-    volumeName: pv-local
+        storage: 5Gi
+    storageClassName: fast-disks
 
 
 

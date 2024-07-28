@@ -5,10 +5,20 @@ metadata:
   labels:
     type: local
 spec:
-  storageClassName: manual
+  storageClassName: fast-disks
   capacity:
     storage: 6Gi
+  volumeMode: Filesystem
   accessModes:
     - ReadWriteMany
-  hostPath:
+  local:
     path: "/Users/mtaabich/pods"
+
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - my-node
