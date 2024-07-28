@@ -13,6 +13,7 @@ spec:
     - ReadWriteMany
   local:
     path: "/Users/mtaabich/pods"
+  persistentVolumeReclaimPolicy: Retain 
 
   nodeAffinity:
     required:

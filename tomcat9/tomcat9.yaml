@@ -36,11 +36,12 @@ objects:
     name: pv-tomcat-data
   spec:
     accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
     resources:
       requests:
         storage: 5Gi
     storageClassName: fast-disks
+    volumeMode: Filesystem
 
 
 
