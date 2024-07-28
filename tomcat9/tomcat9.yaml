@@ -83,7 +83,7 @@ objects:
       requests:
         ephemeral-storage: "1Gi" 
       limits:
-        ephemeral-storage: "5Gi" 
+        ephemeral-storage: "3Gi" 
     triggers:
     - type: ConfigChange
     - imageChange: {}
