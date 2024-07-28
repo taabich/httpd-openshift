@@ -41,7 +41,6 @@ objects:
     storageClassName: fast-disks
     volumeMode: Filesystem
 
-
 - kind: ImageStream
   apiVersion: image.openshift.io/v1
   metadata:
@@ -127,10 +126,10 @@ objects:
             limits:
               ephemeral-storage: "3Gi" 
           volumeMounts:
-              # a mount for site-data
-              - name: tomcat-data-vol
-                mountPath: /opt/app
-                subPath: app
+            # a mount for site-data
+            - name: tomcat-data-vol
+              mountPath: /opt/app
+              subPath: app
           imagePullPolicy: Always
         volumes:
         - name: tomcat-data-vol
