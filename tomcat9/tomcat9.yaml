@@ -84,8 +84,10 @@ objects:
     - type: ConfigChange
     - imageChange: {}
       type: ImageChange
-    
-        
+
+
+
+
 - kind: Deployment
   apiVersion: apps/v1
   metadata:
@@ -104,33 +106,28 @@ objects:
           app: ${APP_NAME}
       spec:
         strategy:
-          rollingUpdate:
-            maxSurge: 25%
-            maxUnavailable: 25%
           type: RollingUpdate
         containers:
-        - env:
-            - name: TOMCAT_USERNAME
-            - name: TOMCAT_PASSWORD
-          name: ${APP_NAME}
-          namespace: ${APP_NS}
-          image: ${APP_NAME}:latest
-          ports:
-              - containerPort: 8443
-                protocol: TCP
-              - containerPort: 8080
-                protocol: TCP
-          resources:
-            requests:
-              ephemeral-storage: "1Gi" 
-            limits:
-              ephemeral-storage: "3Gi" 
-          volumeMounts:
-            # a mount for site-data
-            - name: tomcat-data-vol
-              mountPath: /opt/app
-              subPath: app
-          imagePullPolicy: Always
+          - env:
+              - name: TOMCAT_USERNAME
+              - name: TOMCAT_PASSWORD
+            name: ${APP_NAME}
+            namespace: ${APP_NS}
+            image: ${APP_NAME}:latest
+            ports:
+                - containerPort: 8443
+                  protocol: TCP
+                - containerPort: 8080
+                  protocol: TCP
+            resources:
+              requests:
+                ephemeral-storage: "1Gi" 
+              limits:
+                ephemeral-storage: "3Gi" 
+            volumeMounts:
+              # a mount for site-data
+              - name: tomcat-data-vol
+                mountPath: /opt/app
         volumes:
         - name: tomcat-data-vol
           persistentVolumeClaim:
