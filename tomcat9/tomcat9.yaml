@@ -39,7 +39,7 @@ objects:
     - ReadWriteMany
     resources:
       requests:
-        storage: 5Gi
+        storage: 3Gi
     storageClassName: fast-disks
     volumeMode: Filesystem
 
@@ -128,13 +128,12 @@ objects:
             requests:
               ephemeral-storage: "1Gi" 
             limits:
-              ephemeral-storage: "5Gi" 
+              ephemeral-storage: "3Gi" 
           volumeMounts:
               # a mount for site-data
               - name: tomcat-data-vol
                 mountPath: /opt/app
                 subPath: tomcat
-
           imagePullPolicy: Always
 
         volumes:
