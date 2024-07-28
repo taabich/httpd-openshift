@@ -28,18 +28,34 @@ parameters:
 
 
 objects:
+- kind: ResourceQuota
+  apiVersion: v1
+
+  metadata:
+    name: compute-resources
+  spec:
+    hard:
+      pods: "4" 
+      requests.cpu: "1" 
+      requests.memory: 1Gi 
+      requests.ephemeral-storage: 2Gi 
+      limits.cpu: "2" 
+      limits.memory: 2Gi 
+      limits.ephemeral-storage: 4Gi
 
 - kind: PersistentVolumeClaim
   apiVersion: v1
   metadata:
-    name: tomcat-data
+    name: pv-tomcat-data
   spec:
+    storageClassName: manual
     accessModes:
       - ReadWriteMany 
     resources:
       requests:
         storage: 1Gi 
-    volumeName: nfs-pv
+    volumeName: pv-local
+
 
 
 - kind: ImageStream
@@ -109,11 +125,6 @@ objects:
             maxSurge: 25%
             maxUnavailable: 25%
           type: RollingUpdate
-        volumes:
-        - name: tomcat-data-vol
-          persistentVolumeClaim:
-            claimName: tomcat-data
-
         containers:
         - env:
             - name: TOMCAT_USERNAME
@@ -132,10 +143,18 @@ objects:
             limits:
               ephemeral-storage: "5Gi" 
           volumeMounts:
-            - mountPath: "/opt"
-              name:  tomcat-data-vol
+              # a mount for site-data
+              - name: tomcat-data-vol
+                mountPath: /opt/tomcat
+                subPath: tomcat
+
           imagePullPolicy: Always
-            
+
+        volumes:
+        - name: tomcat-data-vol
+          persistentVolumeClaim:
+            claimName: pv-tomcat-data
+
     triggers:
       - type: "ConfigChange" 
       - imageChangeParams:
