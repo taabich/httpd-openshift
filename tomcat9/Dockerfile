@@ -14,6 +14,7 @@ RUN dnf -y update && dnf -y install \
 RUN groupadd tomcat
 RUN useradd -g tomcat -d /opt/tomcat tomcat
 RUN mkdir -p /opt/app
+RUN chmod -R 777 /opt/app
 
 WORKDIR /tmp
 ADD https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.26/bin/apache-tomcat-10.1.26.tar.gz /tmp/
