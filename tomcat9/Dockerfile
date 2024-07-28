@@ -13,7 +13,6 @@ RUN dnf -y update && dnf -y install \
 
 RUN groupadd tomcat
 RUN useradd -g tomcat -d /opt/tomcat tomcat
-RUN mkdir -p /opt/tomcat
 RUN mkdir -p /opt/app
 
 WORKDIR /tmp
