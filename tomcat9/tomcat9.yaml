@@ -28,8 +28,6 @@ parameters:
 
 
 objects:
-
-
 - kind: PersistentVolumeClaim
   apiVersion: v1
   metadata:
@@ -42,7 +40,6 @@ objects:
         storage: 3Gi
     storageClassName: fast-disks
     volumeMode: Filesystem
-
 
 
 - kind: ImageStream
@@ -135,7 +132,6 @@ objects:
                 mountPath: /opt/app
                 subPath: app
           imagePullPolicy: Always
-
         volumes:
         - name: tomcat-data-vol
           persistentVolumeClaim:
