@@ -50,7 +50,6 @@ EXPOSE 8080/tcp
 EXPOSE 8009/tcp
 EXPOSE 8443/tcp
 
-RUN systemctl daemon-reload
 RUN systemctl enable tomcat
 
 
