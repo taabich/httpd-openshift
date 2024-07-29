@@ -12,7 +12,9 @@ RUN dnf -y update && dnf -y install \
 
 
 RUN groupadd tomcat
-RUN useradd -g tomcat -d /opt/tomcat tomcat
+RUN useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat
+
+
 RUN mkdir -p /opt/app
 RUN chmod -R 777 /opt/app
 RUN chmod -R 777 /opt/tomcat
@@ -29,7 +31,9 @@ ADD tomcat-users.xml /opt/tomcat/conf
 ADD context.xml /opt/tomcat/webapps/manager/META-INF/context.xml
 ADD context.xml /opt/tomcat/webapps/host-manager/META-INF/context.xml
 
-RUN chown -R tomcat:tomcat /opt/tomcat
+
+
+RUN chown -R tomcat: /opt/tomcat
 RUN chmod -R g+r /opt/tomcat
 RUN chmod g+x /opt/tomcat/conf
 RUN chmod -R a+xr /opt/tomcat/bin
@@ -50,6 +54,7 @@ ENV JAVA_HOME /usr/lib/jvm/jre
 ENV CATALINA_PID /opt/tomcat/temp/tomcat.pid
 ENV CATALINA_HOME /opt/tomcat
 ENV CATALINA_BASE /opt/tomcat
+ENV JAVA_OPTS -Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom
 #WORKDIR /opt/tomcat
 #Lanzar Tomcat
-CMD ["/opt/tomcat/bin/catalina.sh", "run"]
+CMD ["/opt/tomcat/bin/catalina.sh", "start"]
