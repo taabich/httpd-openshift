@@ -120,10 +120,14 @@ objects:
                 - containerPort: 8080
                   protocol: TCP
             resources:
-              requests:
-                ephemeral-storage: "1Gi" 
               limits:
-                ephemeral-storage: "3Gi" 
+                cpu: 500m
+                ephemeral-storage: 1Gi
+                memory: 1Gi
+              requests:
+                cpu: 500m
+                ephemeral-storage: 1Gi
+                memory: 100Mi 
         #     volumeMounts:
         #       # a mount for site-data
         #       - name: tomcat-data-vol

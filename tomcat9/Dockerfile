@@ -33,6 +33,7 @@ RUN cd /opt/tomcat; \
 	chgrp -R tomcat /opt/tomcat; \
 	chmod -R g+r conf; \
 	chmod g+x conf; \
+    chmod -R a+x /opt/tomcat/bin; \
 	chown -R tomcat /opt/tomcat/webapps/; \
 	chown -R tomcat /opt/tomcat/work/; \
 	chown -R tomcat /opt/tomcat/temp/; \
@@ -49,8 +50,10 @@ EXPOSE 8009/tcp
 EXPOSE 8443/tcp
 
 
+
 VOLUME "/opt/tomcat/webapps"
 WORKDIR /opt/tomcat
+USER tomcat
 
 #Lanzar Tomcat
 CMD ["/opt/tomcat/bin/catalina.sh", "run"]
