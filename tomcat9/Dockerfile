@@ -30,15 +30,12 @@ ADD context.xml /opt/tomcat/webapps/manager/META-INF/context.xml
 ADD context.xml /opt/tomcat/webapps/host-manager/META-INF/context.xml
 
 RUN chown -R tomcat:tomcat /opt/tomcat
-RUN chmod -R g+r /opt/tomcat/conf
+RUN chmod -R g+r /opt/tomcat
 RUN chmod g+x /opt/tomcat/conf
-RUN chmod -R a+r /opt/tomcat/bin
-RUN chmod -R a+x /opt/tomcat/bin
+RUN chmod -R a+xr /opt/tomcat/bin
 
-ENV JAVA_HOME /usr/lib/jvm/jre
-ENV CATALINA_PID /opt/tomcat/temp/tomcat.pid
-ENV CATALINA_HOME /opt/tomcat
-ENV CATALINA_BASE /opt/tomcat
+
+
 
 
 EXPOSE 8080/tcp
@@ -49,6 +46,10 @@ EXPOSE 8443/tcp
 
 VOLUME "/opt/tomcat/webapps"
 USER tomcat
+ENV JAVA_HOME /usr/lib/jvm/jre
+ENV CATALINA_PID /opt/tomcat/temp/tomcat.pid
+ENV CATALINA_HOME /opt/tomcat
+ENV CATALINA_BASE /opt/tomcat
 #WORKDIR /opt/tomcat
 #Lanzar Tomcat
 CMD ["/opt/tomcat/bin/catalina.sh", "run"]
