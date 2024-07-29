@@ -29,16 +29,11 @@ ADD tomcat-users.xml /opt/tomcat/conf
 ADD context.xml /opt/tomcat/webapps/manager/META-INF/context.xml
 ADD context.xml /opt/tomcat/webapps/host-manager/META-INF/context.xml
 
-RUN cd /opt/tomcat; \
-	chgrp -R tomcat /opt/tomcat; \
-    chown -R tomcat /opt/tomcat; \
-	chmod -R g+r conf; \
-	chmod g+x conf; \
-    chmod -R g+xr /opt/tomcat/bin; \
-	chown -R tomcat /opt/tomcat/webapps/; \
-	chown -R tomcat /opt/tomcat/work/; \
-	chown -R tomcat /opt/tomcat/temp/; \
-	chown -R tomcat /opt/tomcat/logs/
+RUN chown -R tomcat:tomcat /opt/tomcat
+RUN chmod -R g+r /opt/tomcat/conf
+RUN chmod g+x /opt/tomcat/conf
+RUN chmod -R a+r /opt/tomcat/bin
+RUN chmod -R a+x /opt/tomcat/bin
 
 ENV JAVA_HOME /usr/lib/jvm/jre
 ENV CATALINA_PID /opt/tomcat/temp/tomcat.pid
