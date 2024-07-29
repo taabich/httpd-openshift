@@ -52,7 +52,7 @@ EXPOSE 8443/tcp
 
 RUN systemctl daemon-reload
 RUN systemctl enable tomcat
-RUN systemctl start tomcat
+
 
 
 VOLUME "/opt/tomcat/webapps"
