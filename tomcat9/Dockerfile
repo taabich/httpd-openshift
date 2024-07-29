@@ -38,6 +38,8 @@ RUN chmod -R g+r /opt/tomcat
 RUN chmod g+x /opt/tomcat/conf
 RUN chmod -R a+xr /opt/tomcat/bin
 
+RUN chmod -R g+rwx /opt/tomcat/logs
+RUN chmod -R g+rwx /opt/tomcat/webapps
 
 
 
