@@ -31,9 +31,10 @@ ADD context.xml /opt/tomcat/webapps/host-manager/META-INF/context.xml
 
 RUN cd /opt/tomcat; \
 	chgrp -R tomcat /opt/tomcat; \
+    chown -R tomcat /opt/tomcat; \
 	chmod -R g+r conf; \
 	chmod g+x conf; \
-    chmod -R a+x /opt/tomcat/bin; \
+    chmod -R g+xr /opt/tomcat/bin; \
 	chown -R tomcat /opt/tomcat/webapps/; \
 	chown -R tomcat /opt/tomcat/work/; \
 	chown -R tomcat /opt/tomcat/temp/; \
@@ -52,8 +53,7 @@ EXPOSE 8443/tcp
 
 
 VOLUME "/opt/tomcat/webapps"
-WORKDIR /opt/tomcat
 USER tomcat
-
+#WORKDIR /opt/tomcat
 #Lanzar Tomcat
 CMD ["/opt/tomcat/bin/catalina.sh", "run"]
