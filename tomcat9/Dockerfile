@@ -28,6 +28,7 @@ RUN rm /tmp/apache*
 
 
 ADD tomcat-users.xml /opt/tomcat/conf
+ADD tomcat.service  /etc/systemd/system/tomcat.service
 ADD context.xml /opt/tomcat/webapps/manager/META-INF/context.xml
 ADD context.xml /opt/tomcat/webapps/host-manager/META-INF/context.xml
 
@@ -49,10 +50,13 @@ EXPOSE 8080/tcp
 EXPOSE 8009/tcp
 EXPOSE 8443/tcp
 
+RUN systemctl daemon-reload
+RUN systemctl enable tomcat
+RUN systemctl start tomcat
 
 
 VOLUME "/opt/tomcat/webapps"
-USER tomcat
+
 ENV JAVA_HOME /usr/lib/jvm/jre
 ENV CATALINA_PID /opt/tomcat/temp/tomcat.pid
 ENV CATALINA_HOME /opt/tomcat
@@ -60,4 +64,19 @@ ENV CATALINA_BASE /opt/tomcat
 ENV JAVA_OPTS -Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom
 #WORKDIR /opt/tomcat
 #Lanzar Tomcat
-CMD ["/opt/tomcat/bin/catalina.sh", "start"]
+
+
+# Don't start any optional services except for the few we need.
+RUN find /etc/systemd/system \
+    /lib/systemd/system \
+    -path '*.wants/*' \
+    -not -name '*journald*' \
+    -not -name '*systemd-tmpfiles*' \
+    -not -name '*systemd-user-sessions*' \
+    -exec rm \{} \;
+
+VOLUME /run /tmp
+
+#ADD ./proxy.sh  /etc/profile.d/proxy.sh
+
+CMD ["/usr/sbin/init"]
