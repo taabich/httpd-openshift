@@ -6,7 +6,7 @@ RUN dnf -y update && dnf -y install \
 	tar \
 	gzip \
 	openssh-clients \
-	java-11-openjdk \
+	java-17-openjdk \
 	vi \
   && rm -rf /var/cache/yum*
 
@@ -18,7 +18,7 @@ RUN chmod -R 777 /opt/app
 RUN chmod -R 777 /opt/tomcat
 
 WORKDIR /tmp
-ADD https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.26/bin/apache-tomcat-10.1.26.tar.gz /tmp/
+ADD https://dlcdn.apache.org/tomcat/tomcat-11/v11.0.0-M22/bin/apache-tomcat-11.0.0-M22.tar.gz /tmp/
 
 RUN tar xzvf /tmp/apache-tomcat-*tar.gz -C /opt/tomcat --strip-components=1
 
