@@ -65,17 +65,16 @@ ENV JAVA_OPTS -Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom
 #Lanzar Tomcat
 
 
-# Don't start any optional services except for the few we need.
-RUN find /etc/systemd/system \
-    /lib/systemd/system \
-    -path '*.wants/*' \
-    -not -name '*journald*' \
-    -not -name '*systemd-tmpfiles*' \
-    -not -name '*systemd-user-sessions*' \
-    -exec rm \{} \;
+RUN [ ! -f /usr/sbin/init ] && dnf -y install systemd;
+RUN ([ -d /lib/systemd/system/sysinit.target.wants ] && cd /lib/systemd/system/sysinit.target.wants/ && for i in *; do [ $i == \
+systemd-tmpfiles-setup.service ] || rm -f $i; done); \
+rm -f /lib/systemd/system/multi-user.target.wants/*;\
+rm -f /etc/systemd/system/*.wants/*;\
+rm -f /lib/systemd/system/local-fs.target.wants/*; \
+rm -f /lib/systemd/system/sockets.target.wants/*udev*; \
+rm -f /lib/systemd/system/sockets.target.wants/*initctl*; \
+rm -f /lib/systemd/system/basic.target.wants/*;\
+rm -f /lib/systemd/system/anaconda.target.wants/*;
 
-VOLUME /run /tmp
-
-#ADD ./proxy.sh  /etc/profile.d/proxy.sh
-
+VOLUME [ "/sys/fs/cgroup" ]
 CMD ["/usr/sbin/init"]
