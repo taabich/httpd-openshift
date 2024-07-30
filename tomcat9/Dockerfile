@@ -28,7 +28,6 @@ RUN rm /tmp/apache*
 
 
 ADD tomcat-users.xml /opt/tomcat/conf
-ADD tomcat.service  /etc/systemd/system/tomcat.service
 ADD context.xml /opt/tomcat/webapps/manager/META-INF/context.xml
 ADD context.xml /opt/tomcat/webapps/host-manager/META-INF/context.xml
 
@@ -50,7 +49,6 @@ EXPOSE 8080/tcp
 EXPOSE 8009/tcp
 EXPOSE 8443/tcp
 
-RUN systemctl enable tomcat
 
 
 
@@ -61,20 +59,8 @@ ENV CATALINA_PID /opt/tomcat/temp/tomcat.pid
 ENV CATALINA_HOME /opt/tomcat
 ENV CATALINA_BASE /opt/tomcat
 ENV JAVA_OPTS -Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom
-#WORKDIR /opt/tomcat
-#Lanzar Tomcat
+WORKDIR /opt/tomcat
 
 
-RUN dnf -y install systemd;
-RUN ([ -d /lib/systemd/system/sysinit.target.wants ] && cd /lib/systemd/system/sysinit.target.wants/ && for i in *; do [ $i == \
-systemd-tmpfiles-setup.service ] || rm -f $i; done); \
-rm -f /lib/systemd/system/multi-user.target.wants/*;\
-rm -f /etc/systemd/system/*.wants/*;\
-rm -f /lib/systemd/system/local-fs.target.wants/*; \
-rm -f /lib/systemd/system/sockets.target.wants/*udev*; \
-rm -f /lib/systemd/system/sockets.target.wants/*initctl*; \
-rm -f /lib/systemd/system/basic.target.wants/*;\
-rm -f /lib/systemd/system/anaconda.target.wants/*;
 
-
-CMD ["/app/apache-tomcat-10.1.26/bin/catalina.sh", "start"]
+CMD ["/opt/tomcat/bin/catalina.sh", "start"]
