@@ -129,14 +129,14 @@ objects:
                 cpu: 500m
                 ephemeral-storage: 1Gi
                 memory: 500Mi 
-            volumeMounts:
-              # a mount for site-data
-              - name: tomcat-data-vol
-                mountPath: /opt/app
-        volumes:
-        - name: tomcat-data-vol
-          persistentVolumeClaim:
-            claimName: pv-tomcat-data
+        #     volumeMounts:
+        #       # a mount for site-data
+        #       - name: tomcat-data-vol
+        #         mountPath: /opt/app
+        # volumes:
+        # - name: tomcat-data-vol
+        #   persistentVolumeClaim:
+        #     claimName: pv-tomcat-data
 
     triggers:
       - type: "ConfigChange" 

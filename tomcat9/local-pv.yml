@@ -9,7 +9,7 @@ spec:
   capacity:
     storage: 6Gi
   volumeMode: Filesystem
-  accessModes:
+  accessModes:   
     - ReadWriteMany
   local:
     path: "/opt/apps"
