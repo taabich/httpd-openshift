@@ -44,7 +44,7 @@ RUN chmod -R a+xr /opt/tomcat/bin
 
 EXPOSE 8080/tcp
 
-VOLUME "/opt/tomcat/webapps"
+
 USER tomcat
 ENV JAVA_HOME /usr/lib/jvm/jre
 ENV CATALINA_PID /opt/tomcat/temp/tomcat.pid
