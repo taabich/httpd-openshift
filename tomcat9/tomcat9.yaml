@@ -28,18 +28,18 @@ parameters:
 
 
 objects:
-# - kind: PersistentVolumeClaim
-#   apiVersion: v1
-#   metadata:
-#     name: pv-tomcat-data
-#   spec:
-#     accessModes:
-#     - ReadWriteMany
-#     resources:
-#       requests:
-#         storage: 3Gi
-#     storageClassName: fast-disks
-#     volumeMode: Filesystem
+- kind: PersistentVolumeClaim
+  apiVersion: v1
+  metadata:
+    name: pv-tomcat-data
+  spec:
+    accessModes:
+    - ReadWriteMany
+    resources:
+      requests:
+        storage: 3Gi
+    storageClassName: fast-disks
+    volumeMode: Filesystem
 
 - kind: ImageStream
   apiVersion: image.openshift.io/v1
@@ -122,20 +122,20 @@ objects:
             resources:
               limits:
                 cpu: 500m
-                ephemeral-storage: 1Gi
-                memory: 1Gi
+                ephemeral-storage: 2Gi
+                memory: 2Gi
               requests:
                 cpu: 500m
                 ephemeral-storage: 1Gi
-                memory: 100Mi 
-        #     volumeMounts:
-        #       # a mount for site-data
-        #       - name: tomcat-data-vol
-        #         mountPath: /opt/app
-        # volumes:
-        # - name: tomcat-data-vol
-        #   persistentVolumeClaim:
-        #     claimName: pv-tomcat-data
+                memory: 500Mi 
+            volumeMounts:
+              # a mount for site-data
+              - name: tomcat-data-vol
+                mountPath: /opt/app
+        volumes:
+        - name: tomcat-data-vol
+          persistentVolumeClaim:
+            claimName: pv-tomcat-data
 
     triggers:
       - type: "ConfigChange" 

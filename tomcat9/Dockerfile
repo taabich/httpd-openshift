@@ -39,10 +39,11 @@ RUN chmod g+x /opt/tomcat/conf
 RUN chmod -R a+xr /opt/tomcat/bin
 
 
-
-
-
 EXPOSE 8080/tcp
+EXPOSE 8009/tcp
+EXPOSE 8443/tcp
+
+
 
 
 USER tomcat
@@ -55,5 +56,6 @@ WORKDIR /opt/tomcat
 
 RUN chmod -R 777 temp logs work 
 
+CMD ["/opt/tomcat/bin/catalina.sh", "start"]
 
-CMD ["/opt/tomcat/bin/startup.sh"]
+
