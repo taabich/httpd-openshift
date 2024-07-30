@@ -111,6 +111,7 @@ objects:
           - env:
               - name: TOMCAT_USERNAME
               - name: TOMCAT_PASSWORD
+              - name: TOMCAT_HOME
             name: ${APP_NAME}
             namespace: ${APP_NS}
             image: ${APP_NAME}:latest

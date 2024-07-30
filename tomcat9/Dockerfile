@@ -38,6 +38,7 @@ RUN chmod -R g+r /opt/tomcat
 RUN chmod g+x /opt/tomcat/conf
 RUN chmod -R a+xr /opt/tomcat/bin
 
+RUN mkdir  /opt/app
 
 EXPOSE 8080/tcp
 EXPOSE 8009/tcp
