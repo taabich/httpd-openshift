@@ -21,7 +21,7 @@ RUN dnf -y install sudo \
     && dnf clean all
 
 RUN groupadd tomcat
-RUN useradd -s /bin/false -g tomcat -d /opt/tomcat tomcat
+RUN useradd  -g tomcat -d /opt/tomcat tomcat
 RUN echo "%tomcat ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 
@@ -58,7 +58,6 @@ EXPOSE 8443/tcp
 
 
 
-USER tomcat
 ENV JAVA_HOME /usr/lib/jvm/jre
 ENV CATALINA_PID /opt/tomcat/temp/tomcat.pid
 ENV CATALINA_HOME /opt/tomcat
@@ -67,9 +66,9 @@ ENV JAVA_OPTS -Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom
 WORKDIR /opt/tomcat
 
 RUN chmod -R 777 temp logs work 
+ADD sample.war /opt/tomcat/webapps/sample.war 
 
-CMD ["/opt/tomcat/bin/catalina.sh", "start"]
-
-
+ENTRYPOINT ["/opt/tomcat/bin/catalina.sh"]
+CMD ["run"]
 
 
