@@ -36,6 +36,7 @@ ADD context.xml /opt/tomcat/webapps/host-manager/META-INF/context.xml
 RUN chown -R tomcat: /opt/tomcat
 RUN chmod -R g+r /opt/tomcat
 RUN chmod g+x /opt/tomcat/conf
+RUN chmod g+x /opt/tomcat/lib
 RUN chmod -R a+xr /opt/tomcat/bin
 
 
