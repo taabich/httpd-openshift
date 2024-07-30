@@ -53,7 +53,7 @@ EXPOSE 8443/tcp
 
 
 VOLUME "/opt/tomcat/webapps"
-
+USER tomcat
 ENV JAVA_HOME /usr/lib/jvm/jre
 ENV CATALINA_PID /opt/tomcat/temp/tomcat.pid
 ENV CATALINA_HOME /opt/tomcat
