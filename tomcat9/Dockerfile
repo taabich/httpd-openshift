@@ -38,12 +38,6 @@ RUN chmod -R g+r /opt/tomcat
 RUN chmod g+x /opt/tomcat/conf
 RUN chmod -R a+xr /opt/tomcat/bin
 
-RUN mkdir -p /opt/tomcat/logs
-RUN chmod -R g+rwx /opt/tomcat/logs
-RUN chmod -R g+rwx /opt/tomcat/webapps
-
-
-
 
 EXPOSE 8080/tcp
 EXPOSE 8009/tcp
@@ -61,6 +55,6 @@ ENV CATALINA_BASE /opt/tomcat
 ENV JAVA_OPTS -Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom
 WORKDIR /opt/tomcat
 
-
+RUN chmod -R 777 temp logs work 
 
 CMD ["/opt/tomcat/bin/catalina.sh", "start"]
