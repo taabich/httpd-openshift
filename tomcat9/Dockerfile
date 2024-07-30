@@ -76,5 +76,5 @@ rm -f /lib/systemd/system/sockets.target.wants/*initctl*; \
 rm -f /lib/systemd/system/basic.target.wants/*;\
 rm -f /lib/systemd/system/anaconda.target.wants/*;
 
-VOLUME [ "/sys/fs/cgroup" ]
-CMD ["/usr/sbin/init"]
+
+CMD ["/app/apache-tomcat-10.1.26/bin/catalina.sh", "start"]
