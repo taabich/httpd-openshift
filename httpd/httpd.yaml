@@ -83,9 +83,6 @@ objects:
     - imageChange: {}
       type: ImageChange
 
-
-
-
 - kind: Deployment
   apiVersion: apps/v1
   metadata:
@@ -182,6 +179,6 @@ objects:
       name: ${APP_NAME}
       weight: 100
     port:
-      targetPort: 8080-tcp
+      targetPort: 80-tcp
   wildcardPolicy: None
 
