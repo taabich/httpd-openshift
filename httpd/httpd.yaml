@@ -36,7 +36,7 @@ objects:
     resources:
       requests:
         storage: 3Gi
-    storageClassName: fast-disks
+    storageClassName: httpd-disks
     volumeMode: Filesystem
 
 - kind: ImageStream
