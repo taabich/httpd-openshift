@@ -50,7 +50,7 @@ objects:
     - ReadWriteOnce
     resources:
         requests:
-            storage:  3Gi
+            storage:  1Gi
     volumeName: pv-httpd
 
 - kind: ImageStream
