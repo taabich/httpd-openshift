@@ -26,6 +26,21 @@ parameters:
 
 
 objects:
+
+- kind: PersistentVolume
+  apiVersion: v1
+  metadata:
+    name: pv-httpd
+    labels:
+      type: local
+  spec:
+    capacity:
+      storage: 1Gi
+    accessModes:
+      - ReadWriteOnce
+    hostPath:
+      path: "/opt/apps/httpd"
+
 - kind: PersistentVolumeClaim
   apiVersion: v1
   metadata:
@@ -38,9 +53,7 @@ objects:
             storage: 3Gi
         requests:
             storage:  3Gi
-    storageClassName: fast-disks
-    volumeMode: Filesystem
-    volumeName: local-pv
+    volumeName: pv-httpd
 
 - kind: ImageStream
   apiVersion: image.openshift.io/v1
@@ -131,7 +144,6 @@ objects:
               # a mount for site-data
               - name: httpd-data-vol
                 mountPath: /var/www/html
-                subPath: httpd
         volumes:
         - name: httpd-data-vol
           persistentVolumeClaim:
