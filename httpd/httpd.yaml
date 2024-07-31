@@ -38,7 +38,7 @@ objects:
             storage: 20Mi
         requests:
             storage: 17Mi
-    storageClassName: httpd-disks
+#    storageClassName: fast-disks
     volumeMode: Filesystem
     volumeName: local-pv
 
