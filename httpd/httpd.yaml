@@ -1,0 +1,187 @@
+apiVersion: template.openshift.io/v1
+kind: Template
+metadata:
+  name: httpd-template
+  annotations:
+    description: "Description"
+    iconClass: "icon-httpd"
+    tags: "webserver,httpd"
+
+parameters:
+- name: APP_NS
+  displayName: Application Namespace
+  description: Nama aplikasi dan namespace
+  value: tomcat-project
+- name: APP_NAME
+  displayName: Application Name
+  description: Nama aplikasi dan namespace
+  value: httpd-server
+  required: true
+- name: APP_GIT_URL
+  displayName: Application Source Git URL
+  description: The Git URL of the application source code
+  required: true
+  value: https://github.com/taabich/httpd-openshift
+
+
+
+objects:
+- kind: PersistentVolumeClaim
+  apiVersion: v1
+  metadata:
+    name: pv-httpd-data
+  spec:
+    accessModes:
+    - ReadWriteMany
+    resources:
+      requests:
+        storage: 3Gi
+    storageClassName: fast-disks
+    volumeMode: Filesystem
+
+- kind: ImageStream
+  apiVersion: image.openshift.io/v1
+  metadata:
+    annotations:
+    labels:
+      app: ${APP_NAME}
+    name: ${APP_NAME}
+  spec:
+    lookupPolicy:
+      local: true
+
+- kind: "BuildConfig"
+  apiVersion: build.openshift.io/v1
+  metadata:
+    name: ${APP_NAME}
+    labels:
+      app: ${APP_NAME}
+  spec:
+    failedBuildsHistoryLimit: 1
+    successfulBuildsHistoryLimit: 1
+    runPolicy: Serial
+    output: 
+      to:
+        kind: "ImageStreamTag"
+        name: "${APP_NAME}:latest"
+    source: 
+      type: Git
+      contextDir: "httpd/"
+      git:
+        uri: "${APP_GIT_URL}"
+    strategy:
+      type: Docker
+      dockerStrategy:
+        dockerfilePath: Dockerfile
+    resources:
+      requests:
+        ephemeral-storage: "1Gi" 
+      limits:
+        ephemeral-storage: "3Gi" 
+    triggers:
+    - type: ConfigChange
+    - imageChange: {}
+      type: ImageChange
+
+
+
+
+- kind: Deployment
+  apiVersion: apps/v1
+  metadata:
+    name: ${APP_NAME}
+    labels:
+      app: ${APP_NAME}
+  spec:
+    replicas: 0
+    selector:
+      matchLabels:
+        app: ${APP_NAME}  
+    template: 
+      metadata:
+        labels:
+          name: ${APP_NAME}
+          app: ${APP_NAME}
+      spec:
+        strategy:
+          type: RollingUpdate
+        containers:
+          - env:
+              - name: HTTPD_USERNAME
+              - name: HTTPD_PASSWORD
+              - name: HTTPD_HOME
+            name: ${APP_NAME}
+            namespace: ${APP_NS}
+            image: ${APP_NAME}:latest
+            ports:
+                - containerPort: 8443
+                  protocol: TCP
+                - containerPort: 8080
+                  protocol: TCP
+            resources:
+              limits:
+                cpu: 500m
+                ephemeral-storage: 2Gi
+                memory: 2Gi
+              requests:
+                cpu: 500m
+                ephemeral-storage: 1Gi
+                memory: 200Mi 
+            volumeMounts:
+              # a mount for site-data
+              - name: httpd-data-vol
+                mountPath: /var/www/html
+                subPath: httpd
+        volumes:
+        - name: httpd-data-vol
+          persistentVolumeClaim:
+            claimName: pv-httpd-data
+
+    triggers:
+      - type: "ConfigChange" 
+      - imageChangeParams:
+          automatic: true
+          containerNames:
+            - ${APP_NAME}
+          from:
+            kind: "ImageStreamTag"
+            name: ${APP_NAME}:latest
+        type: ImageChange
+
+- kind: Service
+  apiVersion: v1
+  metadata:
+    annotations:
+    name: ${APP_NAME}
+    labels:
+      app: ${APP_NAME}
+  spec:
+    ports:
+    - name: 80-tcp
+      protocol: TCP
+      port: 80
+      targetPort: 80
+    - name: 443-tcp
+      protocol: TCP
+      port: 443
+      targetPort: 443
+    selector:
+      app: ${APP_NAME}
+    type: ClusterIP
+    sessionAffinity: None
+- kind: Route
+  apiVersion: route.openshift.io/v1
+  metadata:
+    name: ${APP_NAME}
+    labels:
+      app: ${APP_NAME}
+    annotations:
+  spec:
+    to:
+      kind: Service
+      name: ${APP_NAME}
+      weight: 100
+    port:
+      targetPort: 8080-tcp
+  wildcardPolicy: None
+
