@@ -35,9 +35,9 @@ objects:
     - ReadWriteMany
     resources:
         limits:
-            storage: 20Mi
+            storage: 3Gi
         requests:
-            storage: 17Mi
+            storage:  3Gi
     storageClassName: fast-disks
     volumeMode: Filesystem
     volumeName: local-pv
