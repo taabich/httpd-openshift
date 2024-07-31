@@ -47,10 +47,8 @@ objects:
     name: pv-httpd-data
   spec:
     accessModes:
-    - ReadWriteMany
+    - ReadWriteOnce
     resources:
-        limits:
-            storage: 3Gi
         requests:
             storage:  3Gi
     volumeName: pv-httpd
