@@ -32,7 +32,7 @@ objects:
     name: pv-httpd-data
   spec:
     accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
     resources:
         limits:
             storage: 20Mi
