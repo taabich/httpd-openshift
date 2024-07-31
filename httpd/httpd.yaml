@@ -34,6 +34,7 @@ objects:
     labels:
       type: local
   spec:
+    storageClassName: http-disk
     capacity:
       storage: 1Gi
     accessModes:
@@ -52,6 +53,7 @@ objects:
         requests:
             storage:  1Gi
     volumeName: pv-httpd
+    storageClassName: http-disk
 
 - kind: ImageStream
   apiVersion: image.openshift.io/v1
