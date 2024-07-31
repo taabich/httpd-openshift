@@ -34,8 +34,10 @@ objects:
     accessModes:
     - ReadWriteOnce
     resources:
-      requests:
-        storage: 3Gi
+        limits:
+            storage: 20Mi
+        requests:
+            storage: 17Mi
     storageClassName: httpd-disks
     volumeMode: Filesystem
     volumeName: local-pv
