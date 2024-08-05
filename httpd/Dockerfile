@@ -27,6 +27,9 @@ RUN echo "%apacheg ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 RUN dnf -y update && dnf -y upgrade && dnf -y install httpd
 
 ADD httpd-foreground /usr/local/bin
-RUN chmod a+x /usr/local/bin/httpd-foreground
-CMD ["/usr/local/bin/httpd-foreground"]
+RUN systemctl enable httpd.service
+
+#RUN chmod a+x /usr/local/bin/httpd-foreground
+#CMD ["/usr/local/bin/httpd-foreground"]
+CMD ["/usr/sbin/init"]
 
