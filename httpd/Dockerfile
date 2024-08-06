@@ -41,7 +41,11 @@ RUN sed -i "s/Listen 80/Listen 8080/" /etc/httpd/conf/httpd.conf && \
 RUN mkdir -p /var/www/html && echo "hello world!" >> /var/www/html/index.html && \
   chown -R apache:0 /var/www/html && \
   chmod -R g+rwX /var/www/html
-EXPOSE 8080
+
+  RUN sed -i 's/#ServerName.*/ServerName localhost/' /etc/httpd/conf/httpd.conf
+  RUN sed -i 's/^#\(Include.*httpd-ssl.conf.*\)/\1/' /etc/httpd/conf/httpd.conf
+  
+  EXPOSE 8080
 USER apache
 
 
