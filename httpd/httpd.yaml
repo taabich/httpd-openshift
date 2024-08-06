@@ -118,13 +118,8 @@ objects:
       spec:
         strategy:
           type: RollingUpdate
-        securityContext:
-          fsGroup: 0
-          supplementalGroups: [1000620001]
-          seLinuxOptions:
-              level: s0:c25,c10
-        serviceAccount: sa-with-anyuid
-        serviceAccountName: sa-with-anyuid
+        serviceAccount: sa-httpd
+        serviceAccountName: sa-httpd
         containers:
           - env:
               - name: HTTPD_USERNAME
@@ -133,8 +128,6 @@ objects:
             name: ${APP_NAME}
             namespace: ${APP_NS}
             image: ${APP_NAME}:latest
-            securityContext:
-              runAsUser: 0
             ports:
                 - containerPort: 8443
                   protocol: TCP
