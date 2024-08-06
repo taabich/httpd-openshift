@@ -15,9 +15,15 @@ rm -f /lib/systemd/system/anaconda.target.wants/*;
 RUN dnf -y install sudo \
 	tar \
 	gzip \
-	openssh-clients \
 	vi \
     && dnf clean all
+RUN yum install -y initscripts
+RUN yum -y install openssh-server openssh-clients && dnf clean all
+
+RUN dnf -y makecache
+RUN dnf -y install procps
+RUN dnf -y install net-tools
+
 
 
 RUN echo "%apache ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
