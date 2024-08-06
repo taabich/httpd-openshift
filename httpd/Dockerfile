@@ -19,9 +19,8 @@ RUN dnf -y install sudo \
 	vi \
     && dnf clean all
 
-RUN groupadd apacheg
-RUN useradd  -g apacheg -d /opt/apacheg apacheu
-RUN echo "%apacheg ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+RUN echo "%apache ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 RUN dnf -y update && dnf -y upgrade && dnf -y install httpd
 
@@ -44,7 +43,7 @@ RUN mkdir -p /var/www/html && echo "hello world!" >> /var/www/html/index.html &&
 
   RUN sed -i 's/#ServerName.*/ServerName localhost/' /etc/httpd/conf/httpd.conf
   RUN sed -i 's/^#\(Include.*httpd-ssl.conf.*\)/\1/' /etc/httpd/conf/httpd.conf
-  
+
   EXPOSE 8080
 USER apache
 
