@@ -30,7 +30,6 @@ RUN systemctl enable httpd.service
 
 RUN chmod a+x /usr/local/bin/httpd-foreground
 
-USER httpd
 
 CMD ["/usr/local/bin/httpd-foreground"]
 
