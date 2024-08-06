@@ -127,9 +127,9 @@ objects:
             namespace: ${APP_NS}
             image: ${APP_NAME}:latest
             ports:
-                - containerPort: 8443
+                - containerPort: 443
                   protocol: TCP
-                - containerPort: 8080
+                - containerPort: 80
                   protocol: TCP
             resources:
               limits:
@@ -171,12 +171,12 @@ objects:
     ports:
     - name: 80-tcp
       protocol: TCP
-      port: 8080
-      targetPort: 8080
+      port: 80
+      targetPort: 80
     - name: 443-tcp
       protocol: TCP
-      port: 8443
-      targetPort: 8443
+      port: 443
+      targetPort: 443
     selector:
       app: ${APP_NAME}
     type: ClusterIP
