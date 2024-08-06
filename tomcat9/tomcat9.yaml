@@ -1,16 +1,17 @@
 apiVersion: template.openshift.io/v1
 kind: Template
 metadata:
-  name: tomcat-server
-  labels: 
-    app: tomcat-server
-message: TOMCAT SERVER JOB
+  name: tomcat-template
+  annotations:
+    description: "Description"
+    iconClass: "icon-tomcat"
+    tags: "webserver,tomcat"
 
 parameters:
 - name: APP_NS
   displayName: Application Namespace
   description: Nama aplikasi dan namespace
-  value: tomcat-project
+  value: oc-project
 - name: APP_NAME
   displayName: Application Name
   description: Nama aplikasi dan namespace
@@ -28,19 +29,6 @@ parameters:
 
 
 objects:
-- kind: PersistentVolumeClaim
-  apiVersion: v1
-  metadata:
-    name: pv-tomcat-data
-  spec:
-    accessModes:
-    - ReadWriteMany
-    resources:
-      requests:
-        storage: 3Gi
-    storageClassName: fast-disks
-    volumeMode: Filesystem
-
 - kind: ImageStream
   apiVersion: image.openshift.io/v1
   metadata:
@@ -129,14 +117,6 @@ objects:
                 cpu: 500m
                 ephemeral-storage: 1Gi
                 memory: 200Mi 
-        #     volumeMounts:
-        #       # a mount for site-data
-        #       - name: tomcat-data-vol
-        #         mountPath: /opt/app
-        # volumes:
-        # - name: tomcat-data-vol
-        #   persistentVolumeClaim:
-        #     claimName: pv-tomcat-data
 
     triggers:
       - type: "ConfigChange" 
