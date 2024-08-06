@@ -118,8 +118,6 @@ objects:
       spec:
         strategy:
           type: RollingUpdate
-        serviceAccount: sa-httpd
-        serviceAccountName: sa-httpd
         containers:
           - env:
               - name: HTTPD_USERNAME
