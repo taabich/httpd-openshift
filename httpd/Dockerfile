@@ -35,9 +35,8 @@ RUN systemctl enable httpd.service
 
 RUN chmod a+x /usr/local/bin/httpd-foreground
 
-
-RUN sed -i "s/Listen 80/Listen 8080/" /etc/httpd/conf/httpd.conf && \
-  chown apache:0 /etc/httpd/conf/httpd.conf && \
+#RUN sed -i "s/Listen 80/Listen 8080/" /etc/httpd/conf/httpd.conf && \
+RUN chown apache:0 /etc/httpd/conf/httpd.conf && \
   chmod g+r /etc/httpd/conf/httpd.conf && \
   chown apache:0 /var/log/httpd && \
   chmod g+rwX /var/log/httpd && \
