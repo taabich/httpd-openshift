@@ -1,23 +1,27 @@
-# Tomcat example
+
+### CRC openshift configuration
+1. crc delete
+2. crc setup
+3. crc config set cpus 6
+4. crc config set memory 20384
+5. crc config set disk-size 50
 
 
-httpd --- (AJP) ---> Tomcat
 
-
-
-
-### Build
-
-On OpenShift
-
+### RUN HTTPD
 ```
-oc new-project tomcat \
-    --description="Examples - tomcat, httpd" \
-    --display-name="Examples"
-
-oc create -f tomcat/BuildConfig.yaml
-oc create -f tomcat/Deployment.yaml
-oc create -f tomcat/Services.yaml
-oc start-build tomcat
+cd httpd
+./deploy.sh
 ```
 
+### RUN TOMCAT
+```
+cd httpd
+./deploy.sh
+```
+### RUN ANSIBLE
+```
+cd httpd
+./deploy.sh
+
+```

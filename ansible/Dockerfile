@@ -58,7 +58,9 @@ RUN su - cdp -c  "cat /workdir/id_rsa.pub > /home/cdp/.ssh/id_rsa.pub"
 RUN su - cdp -c  "cat /workdir/id_rsa.pub > /home/cdp/.ssh/authorized_keys"
 RUN sudo su - cdp -c "chmod g-w /home/cdp/.ssh/authorized_keys"
 
+
 VOLUME ["/sys/fs/cgroup"]
+
 
 CMD ["/usr/sbin/init"]
 
