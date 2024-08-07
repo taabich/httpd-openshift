@@ -17,6 +17,19 @@ parameters:
   description: Nama aplikasi dan namespace
   value: httpd-server
   required: true
+- name: APP_VOLUME
+  displayName: Application Name
+  description: Nama aplikasi dan namespace
+  value: pv-httpd
+  required: true
+
+- name: APP_CONTEXT
+  displayName: Application Name
+  description: Nama aplikasi dan namespace
+  value: httpd
+  required: true
+
+
 - name: APP_GIT_URL
   displayName: Application Source Git URL
   description: The Git URL of the application source code
@@ -30,11 +43,11 @@ objects:
 - kind: PersistentVolume
   apiVersion: v1
   metadata:
-    name: pv-httpd
+    name: ${APP_VOLUME}
     labels:
       type: local
   spec:
-    storageClassName: http-disk
+    storageClassName: ${APP_VOLUME}-disk
     capacity:
       storage: 1Gi
     accessModes:
@@ -45,15 +58,15 @@ objects:
 - kind: PersistentVolumeClaim
   apiVersion: v1
   metadata:
-    name: pv-httpd-data
+    name: ${APP_VOLUME}-data
   spec:
     accessModes:
     - ReadWriteOnce
     resources:
         requests:
             storage:  1Gi
-    volumeName: pv-httpd
-    storageClassName: http-disk
+    volumeName: ${APP_VOLUME}
+    storageClassName: ${APP_VOLUME}-disk
 
 - kind: ImageStream
   apiVersion: image.openshift.io/v1
@@ -82,7 +95,7 @@ objects:
         name: "${APP_NAME}:latest"
     source: 
       type: Git
-      contextDir: "httpd/"
+      contextDir: "${APP_VOLUME}/"
       git:
         uri: "${APP_GIT_URL}"
     strategy:
@@ -142,12 +155,12 @@ objects:
                 memory: 200Mi 
             volumeMounts:
               # a mount for site-data
-              - name: httpd-data-vol
+              - name: ${APP_VOLUME}-vol
                 mountPath: /var/www/html
         volumes:
-        - name: httpd-data-vol
+        - name: ${APP_VOLUME}-vol
           persistentVolumeClaim:
-            claimName: pv-httpd-data
+            claimName: ${APP_VOLUME}-data
 
     triggers:
       - type: "ConfigChange" 

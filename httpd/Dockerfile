@@ -51,8 +51,14 @@ RUN mkdir -p /var/www/html && echo "hello world!" >> /var/www/html/index.html &&
   RUN sed -i 's/^#\(Include.*httpd-ssl.conf.*\)/\1/' /etc/httpd/conf/httpd.conf
 
   EXPOSE 8080
-USER apache
+#USER apache
 
 
-CMD ["/usr/local/bin/httpd-foreground"]
+RUN systemctl enable httpd.service
+
+VOLUME ["/sys/fs/cgroup"]
+
+CMD ["/usr/sbin/init"]
+
+#CMD ["/usr/local/bin/httpd-foreground"]
 
