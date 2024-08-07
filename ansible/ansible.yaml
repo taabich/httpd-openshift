@@ -22,6 +22,12 @@ parameters:
   description: Nama aplikasi dan namespace
   value: "ansible/"
 
+- name: APP_VOLUME
+  displayName: Application Name
+  description: Nama aplikasi dan namespace
+  value: pv-ansible
+
+
 - name: APP_GIT_URL
   displayName: Application Source Git URL
   description: The Git URL of the application source code
@@ -31,11 +37,10 @@ parameters:
 
 
 objects:
-
 - kind: PersistentVolume
   apiVersion: v1
   metadata:
-    name: pv-ansible
+    name: ${APP_VOLUME}
     labels:
       type: local
   spec:
@@ -50,14 +55,14 @@ objects:
 - kind: PersistentVolumeClaim
   apiVersion: v1
   metadata:
-    name: pv-ansible-data
+    name:  ${APP_VOLUME}-data
   spec:
     accessModes:
     - ReadWriteOnce
     resources:
         requests:
             storage:  1Gi
-    volumeName: pv-httpd
+    volumeName:  ${APP_VOLUME}
     storageClassName: ansible-disk
 
 - kind: ImageStream
@@ -147,7 +152,7 @@ objects:
         volumes:
         - name: ansible-data-vol
           persistentVolumeClaim:
-            claimName: pv-ansible-data
+            claimName:  ${APP_VOLUME}e-data
 
     triggers:
       - type: "ConfigChange" 
