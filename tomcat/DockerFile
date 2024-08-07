@@ -1,30 +1,74 @@
-FROM registry.access.redhat.com/ubi9/openjdk-17:1.18-1
+FROM rockylinux:9
 
-USER 0
-RUN microdnf install -y gzip xmlstarlet
 
-WORKDIR /app
+# Systemd install
+RUN dnf -y update && dnf clean all; \
+rm -f /lib/systemd/system/multi-user.target.wants/*; \
+rm -f /etc/systemd/system/*.wants/*; \
+rm -f /lib/systemd/system/local-fs.target.wants/*; \
+rm -f /lib/systemd/system/sockets.target.wants/*udev*; \
+rm -f /lib/systemd/system/sockets.target.wants/*initctl*; \
+rm -f /lib/systemd/system/basic.target.wants/*; \
+rm -f /lib/systemd/system/anaconda.target.wants/*;
 
-RUN curl -L -O https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.26/bin/apache-tomcat-10.1.26.tar.gz
-RUN tar xzvf apache-tomcat-10.1.26.tar.gz
-RUN xmlstarlet ed -L \
-    -s '/Server/Service' --type elem -n Connector \
-    -a '/Server/Service/Connector[not(@protocol)]' -t attr -n protocol -v 'AJP/1.3' \
-    -a '/Server/Service/Connector[@protocol="AJP/1.3"]' -t attr -n port -v 8009 \
-    -a '/Server/Service/Connector[@protocol="AJP/1.3"]' -t attr -n redirectPort -v 8443 \
-    -a '/Server/Service/Connector[@protocol="AJP/1.3"]' -t attr -n maxParameterCount -v 1000 \
-    -a '/Server/Service/Connector[@protocol="AJP/1.3"]' -t attr -n secretRequired -v "false" \
-    -a '/Server/Service/Connector[@protocol="AJP/1.3"]' -t attr -n address -v "0.0.0.0" \
-    /app/apache-tomcat-10.1.26/conf/server.xml
 
-RUN chown -R default:root /app
-RUN chmod g+rw -R /app
-RUN find /app -type d -exec chmod g+x {} \;
+RUN dnf -y install sudo \
+	tar \
+	gzip \
+	openssh-clients \
+	java-17-openjdk \
+	vi \
+    && dnf clean all
+
+RUN groupadd tomcat
+RUN useradd  -g tomcat -d /opt/tomcat tomcat
+RUN echo "%tomcat ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
+
+RUN mkdir -p /opt/app
+RUN chmod -R 777 /opt/app
+RUN chmod -R 777 /opt/tomcat
+
+WORKDIR /tmp
+ADD https://dlcdn.apache.org/tomcat/tomcat-10/v10.1.28/bin/apache-tomcat-10.1.28.tar.gz /tmp/
+
+RUN tar xzvf /tmp/apache-tomcat-*tar.gz -C /opt/tomcat --strip-components=1
+
+RUN rm /tmp/apache*
+
+
+ADD tomcat-users.xml /opt/tomcat/conf
+ADD context.xml /opt/tomcat/webapps/manager/META-INF/context.xml
+ADD context.xml /opt/tomcat/webapps/host-manager/META-INF/context.xml
+
+
+
+RUN chown -R tomcat: /opt/tomcat
+RUN chmod -R g+r /opt/tomcat
+RUN chmod g+x /opt/tomcat/conf
+RUN chmod g+x /opt/tomcat/lib
+RUN chmod -R a+xr /opt/tomcat/bin
+
+
+
 EXPOSE 8080/tcp
 EXPOSE 8009/tcp
+EXPOSE 8443/tcp
 
-RUN cd /app/apache-tomcat-10.1.26/webapps/ && \
-    curl -L -O https://tomcat.apache.org/tomcat-7.0-doc/appdev/sample/sample.war
 
-USER default
-CMD ["/app/apache-tomcat-10.1.26/bin/catalina.sh", "run"]
+
+
+ENV JAVA_HOME /usr/lib/jvm/jre
+ENV CATALINA_PID /opt/tomcat/temp/tomcat.pid
+ENV CATALINA_HOME /opt/tomcat
+ENV CATALINA_BASE /opt/tomcat
+ENV JAVA_OPTS -Djava.awt.headless=true -Djava.security.egd=file:/dev/./urandom
+WORKDIR /opt/tomcat
+
+RUN chmod -R 777 temp logs work 
+ADD sample.war /opt/tomcat/webapps/sample.war 
+
+ENTRYPOINT ["/opt/tomcat/bin/catalina.sh"]
+CMD ["run"]
+
+
