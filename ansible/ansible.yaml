@@ -4,8 +4,8 @@ metadata:
   name: ansible-template
   annotations:
     description: "Description"
-    iconClass: "icon-httpd"
-    tags: "webserver,httpd"
+    iconClass: "icon-ansible"
+    tags: "ansible_master"
 
 parameters:
 - name: APP_NS
