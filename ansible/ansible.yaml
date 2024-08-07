@@ -17,6 +17,11 @@ parameters:
   description: Nama aplikasi dan namespace
   value: ansible-server
   required: true
+- name: APP_CONTEXT
+  displayName: Application Name
+  description: Nama aplikasi dan namespace
+  value: "ansible/"
+
 - name: APP_GIT_URL
   displayName: Application Source Git URL
   description: The Git URL of the application source code
@@ -82,7 +87,7 @@ objects:
         name: "${APP_NAME}:latest"
     source: 
       type: Git
-      contextDir: "httpd/"
+      contextDir: "${APP_CONTEXT}"
       git:
         uri: "${APP_GIT_URL}"
     strategy:
