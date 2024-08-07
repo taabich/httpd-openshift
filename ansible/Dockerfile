@@ -51,9 +51,8 @@ RUN echo "%cdp ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 COPY ./id_rsa /workdir/id_rsa
 COPY ./id_rsa.pub /workdir/id_rsa.pub
-COPY ./ycloud_id_rsa /workdir/ycloud_id_rsa
 
-RUN su - cdp -c  "cat /workdir/ycloud_id_rsa > /home/cdp/.ssh/ycloud_id_rsa"
+
 RUN su - cdp -c  "chmod 0600 /home/cdp/.ssh/ycloud_id_rsa"
 RUN su - cdp -c  "cat /workdir/id_rsa > /home/cdp/.ssh/id_rsa"
 RUN su - cdp -c  "cat /workdir/id_rsa.pub > /home/cdp/.ssh/id_rsa.pub"
