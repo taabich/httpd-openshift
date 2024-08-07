@@ -152,7 +152,7 @@ objects:
         volumes:
         - name: ansible-data-vol
           persistentVolumeClaim:
-            claimName:  ${APP_VOLUME}e-data
+            claimName:  ${APP_VOLUME}-data
 
     triggers:
       - type: "ConfigChange" 
