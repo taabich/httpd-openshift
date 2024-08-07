@@ -53,7 +53,6 @@ COPY ./id_rsa /workdir/id_rsa
 COPY ./id_rsa.pub /workdir/id_rsa.pub
 
 
-RUN su - cdp -c  "chmod 0600 /home/cdp/.ssh/ycloud_id_rsa"
 RUN su - cdp -c  "cat /workdir/id_rsa > /home/cdp/.ssh/id_rsa"
 RUN su - cdp -c  "cat /workdir/id_rsa.pub > /home/cdp/.ssh/id_rsa.pub"
 RUN su - cdp -c  "cat /workdir/id_rsa.pub > /home/cdp/.ssh/authorized_keys"
