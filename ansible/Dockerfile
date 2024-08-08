@@ -60,7 +60,7 @@ RUN sudo su - cdp -c "chmod g-w /home/cdp/.ssh/authorized_keys"
 
 
 VOLUME ["/sys/fs/cgroup"]
-
-
+USER cdp
+WORKDIR /projects
 CMD ["/usr/sbin/init"]
 

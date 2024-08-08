@@ -27,6 +27,11 @@ parameters:
   description: Nama aplikasi dan namespace
   value: pv-ansible
 
+- name: APP_PATH
+  displayName: Application Name
+  description: Nama aplikasi dan namespace
+  value: /opt/apps/projects
+  
 
 - name: APP_GIT_URL
   displayName: Application Source Git URL
@@ -50,7 +55,7 @@ objects:
     accessModes:
       - ReadWriteOnce
     hostPath:
-      path: "/opt/apps/ansible"
+      path: ${APP_PATH}
 
 - kind: PersistentVolumeClaim
   apiVersion: v1
@@ -148,7 +153,7 @@ objects:
             volumeMounts:
               # a mount for site-data
               - name: ansible-data-vol
-                mountPath: /opt/ansible
+                mountPath: /projects
         volumes:
         - name: ansible-data-vol
           persistentVolumeClaim:
